@@ -100,18 +100,20 @@ The production repository accepts these compile-time settings:
 
 | Dart define | Default | Purpose |
 | --- | --- | --- |
-| `BODY_FLOW_AND_GO_FEEDBACK_URL` | `https://hashimojoe.com/api/feedback` | Absolute HTTPS feedback endpoint; non-HTTPS or relative values are rejected |
+| `BODY_FLOW_AND_GO_FEEDBACK_URL` | Not set; required for feedback | Absolute HTTPS feedback endpoint; non-HTTPS or relative values are rejected |
 | `BODY_FLOW_AND_GO_APP_VERSION` | `1.0.0+1` | Version label sent in the `X-AIP-App-Version` request header |
 
 For example:
 
 ```console
-flutter run --dart-define=BODY_FLOW_AND_GO_FEEDBACK_URL=https://example.com/api/feedback --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.0+1
+flutter run --dart-define=BODY_FLOW_AND_GO_FEEDBACK_URL=YOUR_HTTPS_FEEDBACK_ENDPOINT --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.0+1
 ```
 
-Set the version define from the actual release version in automated release
-builds rather than relying indefinitely on the source default. The client does
-not follow HTTP redirects and uses an eight-second network timeout.
+Provide the endpoint through a local or CI build secret/configuration; do not
+publish it in source or store it in the repository. Set the version define from
+the actual release version in automated release builds rather than relying
+indefinitely on the source default. The client does not follow HTTP redirects
+and uses an eight-second network timeout.
 
 ## Verification
 

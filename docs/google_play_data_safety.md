@@ -131,7 +131,7 @@ The feedback client uses compile-time Dart defines:
 
 | Dart define | Default | Sent or used as |
 | --- | --- | --- |
-| `BODY_FLOW_AND_GO_FEEDBACK_URL` | `https://hashimojoe.com/api/feedback` | Destination URL; must be absolute HTTPS |
+| `BODY_FLOW_AND_GO_FEEDBACK_URL` | Not set; required for feedback | Destination URL injected by the build environment; must be absolute HTTPS |
 | `BODY_FLOW_AND_GO_APP_VERSION` | `1.0.0+1` | `X-AIP-App-Version` header |
 
 Production builds derive the source/client label as
