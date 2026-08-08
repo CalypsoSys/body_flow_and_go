@@ -58,6 +58,22 @@
         "group": "body-flow-and-go",
         "order": 4
       }
+    },
+    {
+      "name": "Body Flow & Go: Debug + local feedback config",
+      "type": "dart",
+      "request": "launch",
+      "program": "${workspaceFolder}/lib/main.dart",
+      "cwd": "${workspaceFolder}",
+      "toolArgs": [
+        "--dart-define-from-file",
+        "${workspaceFolder}/.vscode/body-flow-and-go.local.env"
+      ],
+      "preLaunchTask": "flutter: pub get",
+      "presentation": {
+        "group": "body-flow-and-go",
+        "order": 5
+      }
     }
   ]
 }

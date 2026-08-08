@@ -69,6 +69,12 @@ analysis, and build tasks. See
 [docs/vscode_debugging.md](docs/vscode_debugging.md) for the F5 workflow and
 troubleshooting guidance.
 
+Repository tooling includes `AGENTS.md`, `SECURITY.md`, an MIT `LICENSE`,
+optional Gitleaks pre-commit scanning, Dependabot configuration, and GitHub
+Actions for Flutter quality, dependency review, and secret scanning. Backend,
+Docker, and web-frontend workflows from `aip_food_lookup` are intentionally not
+included.
+
 ### Development sample data
 
 Sample events are opt-in and intended only for screenshots and development.
@@ -115,6 +121,10 @@ the actual release version in automated release builds rather than relying
 indefinitely on the source default. The client does not follow HTTP redirects
 and uses an eight-second network timeout.
 
+For local development, copy `.vscode/body-flow-and-go.local.env.example` to
+`.vscode/body-flow-and-go.local.env` and use the matching VS Code profile. The
+copied file is ignored by Git.
+
 ## Verification
 
 ```console
@@ -122,6 +132,14 @@ dart format --output=none --set-exit-if-changed lib test
 flutter analyze
 flutter test
 ```
+
+Or run `powershell -NoProfile -ExecutionPolicy Bypass -File scripts\verify.ps1`
+on Windows or `bash scripts/verify.sh` on a Unix-like system. The scripts also
+run Gitleaks when it is installed.
+
+Review available dependency updates with
+`powershell -NoProfile -ExecutionPolicy Bypass -File scripts\dependency-audit.ps1`
+or `bash scripts/dependency-audit.sh`.
 
 The test suite covers schema creation and ordered migrations, model validation,
 repository CRUD and filters, seed behavior, settings persistence, trend date

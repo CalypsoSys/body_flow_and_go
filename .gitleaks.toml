@@ -1,0 +1,4 @@
+title = "Body Flow & Go Gitleaks configuration"
+
+[extend]
+useDefault = true

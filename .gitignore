@@ -43,3 +43,13 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+.vscode/*.local.env
+!.vscode/body-flow-and-go.local.env.example
+**/key.properties
+**/*.jks
+**/*.keystore
