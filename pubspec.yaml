@@ -1,0 +1,29 @@
+name: golog
+description: A private, local-first bladder and bowel movement tracker.
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  fl_chart: ^1.2.0
+  flutter_riverpod: ^3.4.1
+  intl: ^0.20.2
+  path: ^1.9.1
+  path_provider: ^2.1.6
+  share_plus: ^13.3.0
+  shared_preferences: ^2.5.5
+  sqflite: ^2.4.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  sqflite_common_ffi: ^2.4.2
+
+flutter:
+  uses-material-design: true

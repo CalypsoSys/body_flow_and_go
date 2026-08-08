@@ -1,0 +1,63 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Body Flow & Go: Debug (selected device)",
+      "type": "dart",
+      "request": "launch",
+      "program": "${workspaceFolder}/lib/main.dart",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "flutter: pub get",
+      "presentation": {
+        "group": "body-flow-and-go",
+        "order": 1
+      }
+    },
+    {
+      "name": "Body Flow & Go: Debug + sample data (selected device)",
+      "type": "dart",
+      "request": "launch",
+      "program": "${workspaceFolder}/lib/main.dart",
+      "cwd": "${workspaceFolder}",
+      "toolArgs": [
+        "--dart-define",
+        "GOLOG_SEED_DATA=true"
+      ],
+      "preLaunchTask": "flutter: pub get",
+      "presentation": {
+        "group": "body-flow-and-go",
+        "order": 2
+      }
+    },
+    {
+      "name": "Body Flow & Go: Debug (Galaxy S23)",
+      "type": "dart",
+      "request": "launch",
+      "program": "${workspaceFolder}/lib/main.dart",
+      "cwd": "${workspaceFolder}",
+      "deviceId": "RFCWC06KQGF",
+      "preLaunchTask": "flutter: pub get",
+      "presentation": {
+        "group": "body-flow-and-go",
+        "order": 3
+      }
+    },
+    {
+      "name": "Body Flow & Go: Debug + sample data (Galaxy S23)",
+      "type": "dart",
+      "request": "launch",
+      "program": "${workspaceFolder}/lib/main.dart",
+      "cwd": "${workspaceFolder}",
+      "deviceId": "RFCWC06KQGF",
+      "toolArgs": [
+        "--dart-define",
+        "GOLOG_SEED_DATA=true"
+      ],
+      "preLaunchTask": "flutter: pub get",
+      "presentation": {
+        "group": "body-flow-and-go",
+        "order": 4
+      }
+    }
+  ]
+}
