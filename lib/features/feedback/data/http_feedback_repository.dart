@@ -48,6 +48,9 @@ class IoFeedbackTransport implements FeedbackTransport {
 }
 
 class HttpFeedbackRepository implements FeedbackRepository {
+  static const productionFeedbackEndpoint =
+      'https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go';
+
   HttpFeedbackRepository({
     required Uri endpoint,
     this.transport = const IoFeedbackTransport(),
@@ -58,17 +61,12 @@ class HttpFeedbackRepository implements FeedbackRepository {
   factory HttpFeedbackRepository.production() {
     const endpointValue = String.fromEnvironment(
       'BODY_FLOW_AND_GO_FEEDBACK_URL',
-      defaultValue: '',
+      defaultValue: productionFeedbackEndpoint,
     );
     const version = String.fromEnvironment(
       'BODY_FLOW_AND_GO_APP_VERSION',
       defaultValue: '1.0.0+1',
     );
-    if (endpointValue.trim().isEmpty) {
-      throw StateError(
-        'BODY_FLOW_AND_GO_FEEDBACK_URL must be provided for feedback.',
-      );
-    }
     return HttpFeedbackRepository(
       endpoint: Uri.parse(endpointValue),
       clientName: 'body-flow-and-go-${Platform.operatingSystem}',

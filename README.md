@@ -102,22 +102,25 @@ may process or retain it for delivery and security. No event, note, trend,
 database, or export file is attached automatically. Users are told not to put
 health information in the message.
 
-The production repository accepts these compile-time settings:
+The production app uses the dedicated Body Flow & Go API route below. The
+public endpoint is safe to include in the client; Slack webhook credentials
+remain server-side in the API service. A build-time override remains available
+for local development or a controlled test environment.
 
 | Dart define | Default | Purpose |
 | --- | --- | --- |
-| `BODY_FLOW_AND_GO_FEEDBACK_URL` | Not set; required for feedback | Absolute HTTPS feedback endpoint; non-HTTPS or relative values are rejected |
+| `BODY_FLOW_AND_GO_FEEDBACK_URL` | `https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go` | Optional absolute HTTPS override; non-HTTPS or relative values are rejected |
 | `BODY_FLOW_AND_GO_APP_VERSION` | `1.0.0+1` | Version label sent in the `X-AIP-App-Version` request header |
 
 For example:
 
 ```console
-flutter run --dart-define=BODY_FLOW_AND_GO_FEEDBACK_URL=YOUR_HTTPS_FEEDBACK_ENDPOINT --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.0+1
+flutter run --dart-define=BODY_FLOW_AND_GO_FEEDBACK_URL=https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.0+1
 ```
 
-Provide the endpoint through a local or CI build secret/configuration; do not
-publish it in source or store it in the repository. Set the version define from
-the actual release version in automated release builds rather than relying
+The endpoint is public routing configuration rather than a secret, so the
+production default is compiled into the app. Set the version define from the
+actual release version in automated release builds rather than relying
 indefinitely on the source default. The client does not follow HTTP redirects
 and uses an eight-second network timeout.
 

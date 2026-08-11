@@ -53,8 +53,9 @@ Copy the example file without adding it to Git:
 Copy-Item .vscode\body-flow-and-go.local.env.example .vscode\body-flow-and-go.local.env
 ```
 
-Edit the ignored file with the HTTPS feedback endpoint and a development app
-version. Do not put Slack webhooks, gateway credentials, or health data in it.
+Edit the ignored file with an optional HTTPS feedback endpoint override and a
+development app version. The example already points to the production public
+route. Do not put Slack webhooks, gateway credentials, or health data in it.
 
 ## Sample-data behavior
 

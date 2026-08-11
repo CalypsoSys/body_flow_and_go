@@ -5,6 +5,17 @@ import 'package:golog/features/feedback/domain/feedback_repository.dart';
 
 void main() {
   group('HttpFeedbackRepository', () {
+    test('uses the dedicated production API route by default', () {
+      final repository = HttpFeedbackRepository.production();
+
+      expect(
+        repository.endpoint,
+        Uri.parse(
+          'https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go',
+        ),
+      );
+    });
+
     test('requires an absolute HTTPS endpoint', () {
       expect(
         () => HttpFeedbackRepository(
