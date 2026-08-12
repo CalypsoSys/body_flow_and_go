@@ -9,7 +9,7 @@ import 'privacy_screen.dart';
 
 const _appVersion = String.fromEnvironment(
   'BODY_FLOW_AND_GO_APP_VERSION',
-  defaultValue: '1.0.1+2',
+  defaultValue: '1.0.1+3',
 );
 
 class SettingsScreen extends ConsumerStatefulWidget {
