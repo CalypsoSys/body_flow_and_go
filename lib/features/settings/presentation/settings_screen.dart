@@ -7,6 +7,11 @@ import '../../feedback/presentation/feedback_screen.dart';
 import '../domain/app_settings.dart';
 import 'privacy_screen.dart';
 
+const _appVersion = String.fromEnvironment(
+  'BODY_FLOW_AND_GO_APP_VERSION',
+  defaultValue: '1.0.1+2',
+);
+
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
@@ -176,7 +181,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     const Divider(height: 1, indent: 56),
                     const ListTile(
                       leading: Icon(Icons.info_outline),
-                      title: Text('Body Flow & Go 1.0.0'),
+                      title: Text('Body Flow & Go $_appVersion'),
                       subtitle: Text(
                         'Personal tracking tool — not medical diagnosis',
                       ),
