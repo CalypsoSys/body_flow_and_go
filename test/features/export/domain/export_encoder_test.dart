@@ -156,6 +156,7 @@ void main() {
       'id': 4,
       'eventType': 'urination',
       'wokeFromSleep': true,
+      'wokeFromNap': null,
       'timestamp': '2026-08-05T14:00:00.000Z',
       'utcOffsetMinutes': -240,
       'localDate': '2026-08-05',

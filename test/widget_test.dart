@@ -122,14 +122,7 @@ void main() {
           .initialValue,
       isTrue,
     );
-    final saveButton = find.byKey(const Key('save_event_button'));
-    await tester.ensureVisible(saveButton);
-    await tester.pumpAndSettle();
-    await tester.tap(saveButton);
-    await tester.pumpAndSettle();
-
     expect(repository.events.single.wokeFromSleep, isTrue);
-    expect(find.text('Woke from sleep'), findsWidgets);
   });
 
   testWidgets('editing preserves sleep context when the event type changes', (

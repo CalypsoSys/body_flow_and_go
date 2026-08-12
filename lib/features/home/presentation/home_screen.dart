@@ -112,7 +112,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 error: (_, _) =>
                     _LoadError(onRetry: () => ref.invalidate(homeDataProvider)),
-              data: (data) => _HomeSummary(
+                data: (data) => _HomeSummary(
                   data: data,
                   nowUtc: ref.read(clockProvider)().toUtc(),
                 ),

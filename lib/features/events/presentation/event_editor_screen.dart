@@ -205,9 +205,8 @@ class _EventEditorScreenState extends ConsumerState<EventEditorScreen> {
                   ),
                   value: _wokeFromNap == true,
                   onChanged: _wokeFromSleep == true
-                      ? (value) => setState(
-                          () => _wokeFromNap = value ? true : null,
-                        )
+                      ? (value) =>
+                            setState(() => _wokeFromNap = value ? true : null)
                       : null,
                 ),
               ],

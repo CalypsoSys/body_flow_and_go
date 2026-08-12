@@ -87,22 +87,21 @@ class TrendCalculator {
     );
   }
 
-  Map<String, int> _nocturiaByDate(
-    List<BodyEvent> events,
-    TrendRange range,
-  ) {
-    final urinations = events
-        .where((event) => event.eventType == EventType.urination)
-        .toList()
-      ..sort(
-        (a, b) => a.recordedLocalDateTime.compareTo(b.recordedLocalDateTime),
-      );
+  Map<String, int> _nocturiaByDate(List<BodyEvent> events, TrendRange range) {
+    final urinations =
+        events.where((event) => event.eventType == EventType.urination).toList()
+          ..sort(
+            (a, b) =>
+                a.recordedLocalDateTime.compareTo(b.recordedLocalDateTime),
+          );
     final result = <String, int>{};
 
     for (final date in range.dates) {
-      final start = DateTime.utc(date.year, date.month, date.day).subtract(
-        const Duration(hours: 4),
-      );
+      final start = DateTime.utc(
+        date.year,
+        date.month,
+        date.day,
+      ).subtract(const Duration(hours: 4));
       final end = DateTime.utc(date.year, date.month, date.day, 20);
       final nightEvents = urinations.where((event) {
         final wall = event.recordedLocalDateTime;

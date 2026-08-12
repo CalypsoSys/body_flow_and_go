@@ -232,15 +232,7 @@ void main() {
           23,
           wokeFromSleep: true,
         ),
-        _localEvent(
-          2,
-          EventType.urination,
-          2026,
-          8,
-          6,
-          2,
-          wokeFromSleep: true,
-        ),
+        _localEvent(2, EventType.urination, 2026, 8, 6, 2, wokeFromSleep: true),
         _localEvent(
           3,
           EventType.urination,
@@ -354,12 +346,10 @@ BodyEvent _localEvent(
   int year,
   int month,
   int day,
-  int hour,
-  {
+  int hour, {
   bool? wokeFromSleep,
   bool? wokeFromNap,
-  }
-) => _event(
+}) => _event(
   id: id,
   type: type,
   occurredAtUtc: DateTime.utc(year, month, day, hour),

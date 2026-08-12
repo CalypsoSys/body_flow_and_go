@@ -73,6 +73,7 @@ final class BodyEvent {
   /// This sleep context applies to every event type. Only urination events
   /// marked `true` are considered nocturia in trend summaries.
   final bool? wokeFromSleep;
+
   /// Whether this event followed waking from a nap.
   final bool? wokeFromNap;
   final int? bristolType;

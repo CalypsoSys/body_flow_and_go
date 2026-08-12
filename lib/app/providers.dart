@@ -156,9 +156,7 @@ final homeDataProvider = FutureProvider<HomeData>((ref) async {
     repository.query(
       EventQuery(eventTypes: {EventType.bowelMovement}, limit: 1),
     ),
-    repository.query(
-      EventQuery(fromDate: yesterday, throughDate: today),
-    ),
+    repository.query(EventQuery(fromDate: yesterday, throughDate: today)),
   ]);
 
   final todayEvents = results[1];
