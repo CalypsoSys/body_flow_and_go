@@ -66,17 +66,21 @@ class TrendCalculator {
       0,
       (sum, total) => sum + total.nocturiaCount,
     );
+    final loggedDayCount = dailyTotals
+        .where((total) => total.totalCount > 0)
+        .length;
+    final averageDenominator = loggedDayCount == 0 ? 1 : loggedDayCount;
 
     return TrendSummary(
       range: range,
       dailyTotals: dailyTotals,
-      averageUrinationEventsPerDay: urinationCount / range.dayCount,
-      averageBowelMovementEventsPerDay: bowelMovementCount / range.dayCount,
+      averageUrinationEventsPerDay: urinationCount / averageDenominator,
+      averageBowelMovementEventsPerDay: bowelMovementCount / averageDenominator,
       averageTotalEventsPerDay:
-          (urinationCount + bowelMovementCount) / range.dayCount,
+          (urinationCount + bowelMovementCount) / averageDenominator,
       averageNocturiaWakeupsPerNight:
           nocturiaByDate.values.fold<int>(0, (sum, value) => sum + value) /
-          range.dayCount,
+          averageDenominator,
       urinationByHour: urinationByHour,
       bowelMovementByHour: bowelMovementByHour,
       weeklyTotals: weeklyTotals,

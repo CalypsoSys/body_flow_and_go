@@ -38,7 +38,7 @@ void main() {
   });
 
   group('TrendCalculator daily and hourly summaries', () {
-    test('zero-fills days and includes zero days in averages', () {
+    test('zero-fills days but skips unlogged days in averages', () {
       final range = TrendRange(
         start: CalendarDate(2026, 1, 1),
         end: CalendarDate(2026, 1, 3),
@@ -80,13 +80,28 @@ void main() {
           ['2026-01-03', 0, 1],
         ],
       );
-      expect(summary.averageUrinationEventsPerDay, closeTo(1 / 3, 0.0001));
-      expect(summary.averageBowelMovementEventsPerDay, closeTo(1 / 3, 0.0001));
-      expect(summary.averageTotalEventsPerDay, closeTo(2 / 3, 0.0001));
+      expect(summary.averageUrinationEventsPerDay, closeTo(1 / 2, 0.0001));
+      expect(summary.averageBowelMovementEventsPerDay, closeTo(1 / 2, 0.0001));
+      expect(summary.averageTotalEventsPerDay, closeTo(1, 0.0001));
       expect(summary.urinationByHour[1], 1);
       expect(summary.bowelMovementByHour[9], 1);
       expect(summary.urinationByHour.reduce((a, b) => a + b), 1);
       expect(summary.bowelMovementByHour.reduce((a, b) => a + b), 1);
+    });
+
+    test('returns zero averages when the range has no logged days', () {
+      final summary = calculator.calculate(
+        events: const [],
+        range: TrendRange(
+          start: CalendarDate(2026, 1, 1),
+          end: CalendarDate(2026, 1, 3),
+        ),
+      );
+
+      expect(summary.averageUrinationEventsPerDay, 0);
+      expect(summary.averageBowelMovementEventsPerDay, 0);
+      expect(summary.averageTotalEventsPerDay, 0);
+      expect(summary.averageNocturiaWakeupsPerNight, 0);
     });
 
     test('uses the recorded offset rather than the test machine timezone', () {
@@ -204,6 +219,7 @@ void main() {
       final summary = calculator.calculate(events: events, range: range);
 
       expect(summary.nocturiaCount, 1);
+      expect(summary.averageNocturiaWakeupsPerNight, closeTo(1 / 2, 0.0001));
     });
 
     test('is zero for an empty range', () {

@@ -236,8 +236,9 @@ event caused the user to wake from nighttime sleep; and **Woke from nap** is
 available for urination events that followed a nap. Body Flow & Go never
 guesses this from the clock time. Nap wakeups contribute to total urination,
 but not nocturia. Nocturia counts nighttime wakeups between 8 PM and the first
-next-day urination marked **Awake**, and its average includes nights with no
-nighttime wakeups.
+next-day urination marked **Awake**. Trend event averages skip calendar days
+with no logged events, since those days are unobserved rather than confirmed
+zero-event days; a logged day with no nocturia still counts as a zero.
 
 ## Database schema and migrations
 
