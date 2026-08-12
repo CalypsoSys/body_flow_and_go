@@ -206,6 +206,11 @@ class _TrendContent extends StatelessWidget {
               icon: Icons.bedtime_outlined,
             ),
             _SummaryValue(
+              label: 'Nocturia avg/night',
+              value: summary.averageNocturiaWakeupsPerNight.toStringAsFixed(1),
+              icon: Icons.nightlight_outlined,
+            ),
+            _SummaryValue(
               label: 'Bowel movements',
               value: '$bowelTotal',
               icon: Icons.circle_outlined,
@@ -245,6 +250,12 @@ class _TrendContent extends StatelessWidget {
           subtitle: 'Every date is included, even days with no events.',
           legend: const _ChartLegend(),
           child: _DailyLineChart(totals: summary.dailyTotals),
+        ),
+        const SizedBox(height: 16),
+        _ChartCard(
+          title: 'Nocturia over time',
+          subtitle: 'Nighttime wake-ups to urinate by waking date.',
+          child: _NocturiaLineChart(totals: summary.dailyTotals),
         ),
         const SizedBox(height: 16),
         _ChartCard(
@@ -585,8 +596,15 @@ class _HourlyBarChart extends StatelessWidget {
             rightTitles: const AxisTitles(
               sideTitles: SideTitles(showTitles: false),
             ),
-            leftTitles: const AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 28),
+            leftTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 42,
+                getTitlesWidget: (value, meta) => Text(
+                  value.round().toString(),
+                  style: Theme.of(context).textTheme.labelSmall,
+                ),
+              ),
             ),
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
@@ -629,6 +647,89 @@ class _HourlyBarChart extends StatelessWidget {
                   ),
                 ],
               ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NocturiaLineChart extends StatelessWidget {
+  const _NocturiaLineChart({required this.totals});
+
+  final List<DailyEventTotal> totals;
+
+  @override
+  Widget build(BuildContext context) {
+    final highest = totals.fold<int>(
+      0,
+      (current, day) => math.max(current, day.nocturiaCount),
+    );
+    final labelStep = math.max(1, (totals.length / 5).ceil());
+    return SizedBox(
+      height: 200,
+      child: LineChart(
+        LineChartData(
+          minX: 0,
+          maxX: math.max(1, totals.length - 1).toDouble(),
+          minY: 0,
+          maxY: math.max(2, highest + 1).toDouble(),
+          gridData: const FlGridData(drawVerticalLine: false),
+          borderData: FlBorderData(show: false),
+          titlesData: FlTitlesData(
+            topTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            rightTitles: const AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            leftTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 42,
+                getTitlesWidget: (value, meta) => Text(
+                  value.round().toString(),
+                  style: Theme.of(context).textTheme.labelSmall,
+                ),
+              ),
+            ),
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 30,
+                interval: 1,
+                getTitlesWidget: (value, meta) {
+                  final index = value.round();
+                  if (index < 0 ||
+                      index >= totals.length ||
+                      (index % labelStep != 0 && index != totals.length - 1)) {
+                    return const SizedBox.shrink();
+                  }
+                  return SideTitleWidget(
+                    meta: meta,
+                    child: Text(
+                      DateFormat.Md().format(totals[index].date.asUtcMidnight),
+                      style: Theme.of(context).textTheme.labelSmall,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          lineBarsData: [
+            LineChartBarData(
+              spots: [
+                for (var index = 0; index < totals.length; index++)
+                  FlSpot(
+                    index.toDouble(),
+                    totals[index].nocturiaCount.toDouble(),
+                  ),
+              ],
+              color: Theme.of(context).colorScheme.secondary,
+              barWidth: 3,
+              isCurved: false,
+              dotData: FlDotData(show: totals.length <= 30),
+            ),
           ],
         ),
       ),

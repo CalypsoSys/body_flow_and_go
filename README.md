@@ -232,10 +232,12 @@ the previous six local calendar dates, rather than a rolling 168-hour window.
 
 The home-screen sleep context is always chosen explicitly. **Awake** means the
 event happened while the user was already awake; **Woke from sleep** means the
-event caused the user to wake. Body Flow & Go never guesses this from the
-clock time.
-Only urination events marked **Woke from sleep** contribute to the nocturia
-trend count.
+event caused the user to wake from nighttime sleep; and **Woke from nap** is
+available for urination events that followed a nap. Body Flow & Go never
+guesses this from the clock time. Nap wakeups contribute to total urination,
+but not nocturia. Nocturia counts nighttime wakeups between 8 PM and the first
+next-day urination marked **Awake**, and its average includes nights with no
+nighttime wakeups.
 
 ## Database schema and migrations
 

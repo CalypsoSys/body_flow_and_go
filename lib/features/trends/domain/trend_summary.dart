@@ -6,11 +6,13 @@ class DailyEventTotal {
     required this.date,
     required this.urinationCount,
     required this.bowelMovementCount,
+    this.nocturiaCount = 0,
   });
 
   final CalendarDate date;
   final int urinationCount;
   final int bowelMovementCount;
+  final int nocturiaCount;
 
   int get totalCount => urinationCount + bowelMovementCount;
 }
@@ -21,12 +23,14 @@ class WeeklyEventTotal {
     required this.weekEnd,
     required this.urinationCount,
     required this.bowelMovementCount,
+    this.nocturiaCount = 0,
   });
 
   final CalendarDate weekStart;
   final CalendarDate weekEnd;
   final int urinationCount;
   final int bowelMovementCount;
+  final int nocturiaCount;
 
   int get totalCount => urinationCount + bowelMovementCount;
 }
@@ -37,12 +41,14 @@ class MonthlyEventTotal {
     required this.month,
     required this.urinationCount,
     required this.bowelMovementCount,
+    this.nocturiaCount = 0,
   });
 
   final int year;
   final int month;
   final int urinationCount;
   final int bowelMovementCount;
+  final int nocturiaCount;
 
   int get totalCount => urinationCount + bowelMovementCount;
 }
@@ -54,6 +60,7 @@ class TrendSummary {
     required this.averageUrinationEventsPerDay,
     required this.averageBowelMovementEventsPerDay,
     required this.averageTotalEventsPerDay,
+    required this.averageNocturiaWakeupsPerNight,
     required List<int> urinationByHour,
     required List<int> bowelMovementByHour,
     required List<WeeklyEventTotal> weeklyTotals,
@@ -74,6 +81,7 @@ class TrendSummary {
   final double averageUrinationEventsPerDay;
   final double averageBowelMovementEventsPerDay;
   final double averageTotalEventsPerDay;
+  final double averageNocturiaWakeupsPerNight;
   final List<int> urinationByHour;
   final List<int> bowelMovementByHour;
   final List<WeeklyEventTotal> weeklyTotals;

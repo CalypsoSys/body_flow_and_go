@@ -13,6 +13,7 @@ abstract final class EventTableSchema {
   static const urgency = 'urgency';
   static const leakage = 'leakage';
   static const wokeFromSleep = 'woke_from_sleep';
+  static const wokeFromNap = 'woke_from_nap';
   static const bristolType = 'bristol_type';
   static const notes = 'notes';
   static const extraDetailsJson = 'extra_details_json';
@@ -31,7 +32,7 @@ abstract final class EventTableSchema {
 /// for future optional fields without weakening the typed first-class columns.
 /// Version 3 adds nullable wake-from-sleep context for every event type.
 abstract final class AppDatabaseMigrations {
-  static const currentVersion = 3;
+  static const currentVersion = 4;
 
   static Future<void> migrate(
     DatabaseExecutor database, {
@@ -54,6 +55,8 @@ abstract final class AppDatabaseMigrations {
           await _upgradeToVersion2(database);
         case 3:
           await _upgradeToVersion3(database);
+        case 4:
+          await _upgradeToVersion4(database);
       }
     }
   }
@@ -111,6 +114,15 @@ ALTER TABLE ${EventTableSchema.table}
 ADD COLUMN ${EventTableSchema.wokeFromSleep} INTEGER
   CHECK (${EventTableSchema.wokeFromSleep} IS NULL OR
     ${EventTableSchema.wokeFromSleep} IN (0, 1))
+''');
+  }
+
+  static Future<void> _upgradeToVersion4(DatabaseExecutor database) async {
+    await database.execute('''
+ALTER TABLE ${EventTableSchema.table}
+ADD COLUMN ${EventTableSchema.wokeFromNap} INTEGER
+  CHECK (${EventTableSchema.wokeFromNap} IS NULL OR
+    ${EventTableSchema.wokeFromNap} IN (0, 1))
 ''');
   }
 }

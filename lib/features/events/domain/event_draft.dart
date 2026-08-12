@@ -14,6 +14,7 @@ final class EventDraft {
     this.urgency,
     this.leakage,
     this.wokeFromSleep,
+    this.wokeFromNap,
     this.bristolType,
     String? notes,
     Map<String, Object?>? extraDetails,
@@ -39,6 +40,7 @@ final class EventDraft {
     EventUrgency? urgency,
     LeakageLevel? leakage,
     bool? wokeFromSleep,
+    bool? wokeFromNap,
     int? bristolType,
     String? notes,
     Map<String, Object?>? extraDetails,
@@ -51,6 +53,7 @@ final class EventDraft {
       urgency: urgency,
       leakage: leakage,
       wokeFromSleep: wokeFromSleep,
+      wokeFromNap: wokeFromNap,
       bristolType: bristolType,
       notes: notes,
       extraDetails: extraDetails,
@@ -66,6 +69,7 @@ final class EventDraft {
 
   /// Whether this event woke the user from sleep; `null` means not recorded.
   final bool? wokeFromSleep;
+  final bool? wokeFromNap;
   final int? bristolType;
   final String? notes;
   final Map<String, Object?>? extraDetails;
@@ -82,6 +86,7 @@ final class EventDraft {
     Object? urgency = _notProvided,
     Object? leakage = _notProvided,
     Object? wokeFromSleep = _notProvided,
+    Object? wokeFromNap = _notProvided,
     Object? bristolType = _notProvided,
     Object? notes = _notProvided,
     Object? extraDetails = _notProvided,
@@ -102,6 +107,9 @@ final class EventDraft {
       wokeFromSleep: identical(wokeFromSleep, _notProvided)
           ? this.wokeFromSleep
           : wokeFromSleep as bool?,
+      wokeFromNap: identical(wokeFromNap, _notProvided)
+          ? this.wokeFromNap
+          : wokeFromNap as bool?,
       bristolType: identical(bristolType, _notProvided)
           ? this.bristolType
           : bristolType as int?,

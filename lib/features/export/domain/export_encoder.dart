@@ -46,7 +46,7 @@ class ExportEncoder {
           event.localDate.format(),
           _formatRecordedTime(event),
           event.eventType.storageValue,
-          _formatWokeFromSleep(event.wokeFromSleep),
+          _formatSleepContext(event),
           event.amount?.storageValue ?? '',
           event.urgency?.storageValue ?? '',
           event.leakage?.storageValue ?? '',
@@ -71,6 +71,7 @@ class ExportEncoder {
     'id': event.id,
     'eventType': event.eventType.storageValue,
     'wokeFromSleep': event.wokeFromSleep,
+    'wokeFromNap': event.wokeFromNap,
     'timestamp': event.occurredAtUtc.toUtc().toIso8601String(),
     'utcOffsetMinutes': event.utcOffsetMinutes,
     'localDate': event.localDate.format(),
@@ -92,6 +93,11 @@ class ExportEncoder {
     false => 'no',
     null => '',
   };
+
+  String _formatSleepContext(BodyEvent event) {
+    if (event.wokeFromNap == true) return 'nap';
+    return _formatWokeFromSleep(event.wokeFromSleep);
+  }
 
   String _escapeCsvField(String value) {
     if (!value.contains(RegExp(r'[,"\r\n]'))) {

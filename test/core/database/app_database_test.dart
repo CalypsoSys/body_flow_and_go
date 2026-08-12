@@ -34,6 +34,7 @@ void main() {
       EventTableSchema.urgency,
       EventTableSchema.leakage,
       EventTableSchema.wokeFromSleep,
+      EventTableSchema.wokeFromNap,
       EventTableSchema.bristolType,
       EventTableSchema.notes,
       EventTableSchema.extraDetailsJson,
@@ -141,6 +142,10 @@ void main() {
       expect(
         columns.map((row) => row['name']),
         contains(EventTableSchema.wokeFromSleep),
+      );
+      expect(
+        columns.map((row) => row['name']),
+        contains(EventTableSchema.wokeFromNap),
       );
 
       final repository = SQLiteEventRepository(appDatabase);

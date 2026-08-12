@@ -19,6 +19,8 @@ import '../features/settings/data/local_settings_repository.dart';
 import '../features/settings/data/shared_preferences_settings_store.dart';
 import '../features/settings/domain/app_settings.dart';
 import '../features/settings/domain/settings_repository.dart';
+import '../features/trends/domain/trend_calculator.dart';
+import '../features/trends/domain/trend_range.dart';
 
 typedef AppClock = DateTime Function();
 typedef HapticCallback = Future<void> Function();
@@ -139,6 +141,12 @@ final homeDataProvider = FutureProvider<HomeData>((ref) async {
   final repository = ref.watch(eventRepositoryProvider);
   final now = ref.watch(clockProvider)();
   final today = CalendarDate.fromRecordedWallDate(now);
+  final yesterdayUtc = today.asUtcMidnight.subtract(const Duration(days: 1));
+  final yesterday = CalendarDate(
+    yesterdayUtc.year,
+    yesterdayUtc.month,
+    yesterdayUtc.day,
+  );
   await startup;
 
   final results = await Future.wait<List<BodyEvent>>([
@@ -148,9 +156,17 @@ final homeDataProvider = FutureProvider<HomeData>((ref) async {
     repository.query(
       EventQuery(eventTypes: {EventType.bowelMovement}, limit: 1),
     ),
+    repository.query(
+      EventQuery(fromDate: yesterday, throughDate: today),
+    ),
   ]);
 
   final todayEvents = results[1];
+  final nocturiaEvents = results[4];
+  final nocturiaSummary = const TrendCalculator().calculate(
+    events: nocturiaEvents,
+    range: TrendRange(start: yesterday, end: today),
+  );
   return HomeData(
     recentEvents: results[0],
     urinationCountToday: todayEvents
@@ -161,6 +177,7 @@ final homeDataProvider = FutureProvider<HomeData>((ref) async {
         .length,
     lastUrination: results[2].firstOrNull,
     lastBowelMovement: results[3].firstOrNull,
+    nocturiaCountToday: nocturiaSummary.dailyTotals.last.nocturiaCount,
   );
 });
 
@@ -184,6 +201,7 @@ class HomeData {
     required this.bowelMovementCountToday,
     required this.lastUrination,
     required this.lastBowelMovement,
+    this.nocturiaCountToday = 0,
   });
 
   final List<BodyEvent> recentEvents;
@@ -191,4 +209,5 @@ class HomeData {
   final int bowelMovementCountToday;
   final BodyEvent? lastUrination;
   final BodyEvent? lastBowelMovement;
+  final int nocturiaCountToday;
 }

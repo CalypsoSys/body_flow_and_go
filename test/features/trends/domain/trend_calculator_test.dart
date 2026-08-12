@@ -216,6 +216,58 @@ void main() {
 
       expect(summary.nocturiaCount, 0);
     });
+
+    test('counts nighttime wakeups but excludes nap wakeups', () {
+      final range = TrendRange(
+        start: CalendarDate(2026, 8, 6),
+        end: CalendarDate(2026, 8, 6),
+      );
+      final events = [
+        _localEvent(
+          1,
+          EventType.urination,
+          2026,
+          8,
+          5,
+          23,
+          wokeFromSleep: true,
+        ),
+        _localEvent(
+          2,
+          EventType.urination,
+          2026,
+          8,
+          6,
+          2,
+          wokeFromSleep: true,
+        ),
+        _localEvent(
+          3,
+          EventType.urination,
+          2026,
+          8,
+          6,
+          7,
+          wokeFromSleep: false,
+        ),
+        _localEvent(
+          4,
+          EventType.urination,
+          2026,
+          8,
+          6,
+          14,
+          wokeFromSleep: true,
+          wokeFromNap: true,
+        ),
+      ];
+
+      final summary = calculator.calculate(events: events, range: range);
+
+      expect(summary.nocturiaCount, 2);
+      expect(summary.averageNocturiaWakeupsPerNight, 2);
+      expect(summary.dailyTotals.single.nocturiaCount, 2);
+    });
   });
 
   group('TrendCalculator urination intervals', () {
@@ -303,10 +355,16 @@ BodyEvent _localEvent(
   int month,
   int day,
   int hour,
+  {
+  bool? wokeFromSleep,
+  bool? wokeFromNap,
+  }
 ) => _event(
   id: id,
   type: type,
   occurredAtUtc: DateTime.utc(year, month, day, hour),
+  wokeFromSleep: wokeFromSleep,
+  wokeFromNap: wokeFromNap,
 );
 
 BodyEvent _event({
@@ -315,6 +373,7 @@ BodyEvent _event({
   required DateTime occurredAtUtc,
   int utcOffsetMinutes = 0,
   bool? wokeFromSleep,
+  bool? wokeFromNap,
 }) {
   final instant = occurredAtUtc.toUtc();
   return BodyEvent(
@@ -324,6 +383,7 @@ BodyEvent _event({
     utcOffsetMinutes: utcOffsetMinutes,
     localDate: CalendarDate.fromUtcAndOffset(instant, utcOffsetMinutes),
     wokeFromSleep: wokeFromSleep,
+    wokeFromNap: wokeFromNap,
     createdAtUtc: instant,
     updatedAtUtc: instant,
   );

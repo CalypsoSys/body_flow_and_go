@@ -17,7 +17,7 @@ class TrendCalculator {
     final urinationByHour = List<int>.filled(24, 0);
     final bowelMovementByHour = List<int>.filled(24, 0);
     final urinationInstants = <DateTime>[];
-    var nocturiaCount = 0;
+    final nocturiaByDate = _nocturiaByDate(events, range);
 
     for (final event in events) {
       if (!range.contains(event.localDate)) {
@@ -35,9 +35,6 @@ class TrendCalculator {
           total.urinationCount++;
           urinationByHour[hour]++;
           urinationInstants.add(event.occurredAtUtc.toUtc());
-          if (event.wokeFromSleep == true) {
-            nocturiaCount++;
-          }
         case EventType.bowelMovement:
           total.bowelMovementCount++;
           bowelMovementByHour[hour]++;
@@ -50,6 +47,7 @@ class TrendCalculator {
             date: total.date,
             urinationCount: total.urinationCount,
             bowelMovementCount: total.bowelMovementCount,
+            nocturiaCount: nocturiaByDate[total.date.format()] ?? 0,
           ),
         )
         .toList(growable: false);
@@ -64,6 +62,10 @@ class TrendCalculator {
       0,
       (sum, total) => sum + total.bowelMovementCount,
     );
+    final nocturiaCount = dailyTotals.fold<int>(
+      0,
+      (sum, total) => sum + total.nocturiaCount,
+    );
 
     return TrendSummary(
       range: range,
@@ -72,6 +74,9 @@ class TrendCalculator {
       averageBowelMovementEventsPerDay: bowelMovementCount / range.dayCount,
       averageTotalEventsPerDay:
           (urinationCount + bowelMovementCount) / range.dayCount,
+      averageNocturiaWakeupsPerNight:
+          nocturiaByDate.values.fold<int>(0, (sum, value) => sum + value) /
+          range.dayCount,
       urinationByHour: urinationByHour,
       bowelMovementByHour: bowelMovementByHour,
       weeklyTotals: weeklyTotals,
@@ -80,6 +85,49 @@ class TrendCalculator {
       longestUrinationInterval: intervals.longest,
       averageUrinationInterval: intervals.average,
     );
+  }
+
+  Map<String, int> _nocturiaByDate(
+    List<BodyEvent> events,
+    TrendRange range,
+  ) {
+    final urinations = events
+        .where((event) => event.eventType == EventType.urination)
+        .toList()
+      ..sort(
+        (a, b) => a.recordedLocalDateTime.compareTo(b.recordedLocalDateTime),
+      );
+    final result = <String, int>{};
+
+    for (final date in range.dates) {
+      final start = DateTime.utc(date.year, date.month, date.day).subtract(
+        const Duration(hours: 4),
+      );
+      final end = DateTime.utc(date.year, date.month, date.day, 20);
+      final nightEvents = urinations.where((event) {
+        final wall = event.recordedLocalDateTime;
+        return !wall.isBefore(start) && wall.isBefore(end);
+      });
+      DateTime? firstAwake;
+      for (final event in nightEvents) {
+        final wall = event.recordedLocalDateTime;
+        if (wall.day == date.day &&
+            wall.month == date.month &&
+            wall.year == date.year &&
+            event.wokeFromSleep == false) {
+          firstAwake = wall;
+          break;
+        }
+      }
+      final count = nightEvents.where((event) {
+        final wall = event.recordedLocalDateTime;
+        return (firstAwake == null || wall.isBefore(firstAwake)) &&
+            event.wokeFromSleep == true &&
+            event.wokeFromNap != true;
+      }).length;
+      result[date.format()] = count;
+    }
+    return result;
   }
 
   List<WeeklyEventTotal> _weeklyTotals(List<DailyEventTotal> dailyTotals) {
@@ -96,6 +144,7 @@ class TrendCalculator {
       );
       bucket.urinationCount += total.urinationCount;
       bucket.bowelMovementCount += total.bowelMovementCount;
+      bucket.nocturiaCount += total.nocturiaCount;
     }
 
     return buckets.values
@@ -106,6 +155,7 @@ class TrendCalculator {
             weekEnd: CalendarDate(end.year, end.month, end.day),
             urinationCount: bucket.urinationCount,
             bowelMovementCount: bucket.bowelMovementCount,
+            nocturiaCount: bucket.nocturiaCount,
           );
         })
         .toList(growable: false);
@@ -123,6 +173,7 @@ class TrendCalculator {
       );
       bucket.urinationCount += total.urinationCount;
       bucket.bowelMovementCount += total.bowelMovementCount;
+      bucket.nocturiaCount += total.nocturiaCount;
     }
 
     return buckets.values
@@ -132,6 +183,7 @@ class TrendCalculator {
             month: bucket.month,
             urinationCount: bucket.urinationCount,
             bowelMovementCount: bucket.bowelMovementCount,
+            nocturiaCount: bucket.nocturiaCount,
           ),
         )
         .toList(growable: false);
@@ -171,6 +223,7 @@ class _MutableTotal {
   final CalendarDate date;
   int urinationCount = 0;
   int bowelMovementCount = 0;
+  int nocturiaCount = 0;
 }
 
 class _MutableWeeklyTotal {
@@ -179,6 +232,7 @@ class _MutableWeeklyTotal {
   final CalendarDate weekStart;
   int urinationCount = 0;
   int bowelMovementCount = 0;
+  int nocturiaCount = 0;
 }
 
 class _MutableMonthlyTotal {
@@ -188,6 +242,7 @@ class _MutableMonthlyTotal {
   final int month;
   int urinationCount = 0;
   int bowelMovementCount = 0;
+  int nocturiaCount = 0;
 }
 
 class _Intervals {

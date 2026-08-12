@@ -21,7 +21,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   final _logging = <EventType, bool>{};
-  ({EventType type, bool wokeFromSleep})? _confirmedLog;
+  ({EventType type, bool wokeFromSleep, bool wokeFromNap})? _confirmedLog;
   Timer? _clockTimer;
   Timer? _confirmationTimer;
 
@@ -80,6 +80,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     : null,
                 awakeKey: const Key('log_urination_awake_button'),
                 wokeFromSleepKey: const Key('log_urination_sleep_button'),
+                napKey: const Key('log_urination_nap_button'),
+                onNap: () => _log(
+                  EventType.urination,
+                  wokeFromSleep: true,
+                  wokeFromNap: true,
+                ),
                 onLog: (wokeFromSleep) =>
                     _log(EventType.urination, wokeFromSleep: wokeFromSleep),
               ),
@@ -106,7 +112,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 error: (_, _) =>
                     _LoadError(onRetry: () => ref.invalidate(homeDataProvider)),
-                data: (data) => _HomeSummary(
+              data: (data) => _HomeSummary(
                   data: data,
                   nowUtc: ref.read(clockProvider)().toUtc(),
                 ),
@@ -163,7 +169,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Future<void> _log(EventType type, {required bool wokeFromSleep}) async {
+  Future<void> _log(
+    EventType type, {
+    required bool wokeFromSleep,
+    bool wokeFromNap = false,
+  }) async {
     if (_logging.containsKey(type)) return;
     setState(() => _logging[type] = wokeFromSleep);
     try {
@@ -175,6 +185,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               eventType: type,
               recordedLocalDateTime: now,
               wokeFromSleep: wokeFromSleep,
+              wokeFromNap: wokeFromNap,
             ),
           );
       final settings =
@@ -187,7 +198,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         }
       }
       if (!mounted) return;
-      final confirmedLog = (type: type, wokeFromSleep: wokeFromSleep);
+      final confirmedLog = (
+        type: type,
+        wokeFromSleep: wokeFromSleep,
+        wokeFromNap: wokeFromNap,
+      );
       setState(() => _confirmedLog = confirmedLog);
       _confirmationTimer?.cancel();
       _confirmationTimer = Timer(const Duration(milliseconds: 900), () {
@@ -226,7 +241,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             children: [
               Text(
                 '${event.eventType.displayName} logged: '
-                '${event.wokeFromSleep == true ? 'Woke from sleep' : 'Awake'}.',
+                '${event.wokeFromNap == true
+                    ? 'Woke from nap'
+                    : event.wokeFromSleep == true
+                    ? 'Woke from sleep'
+                    : 'Awake'}.',
               ),
               if (detailsEnabled)
                 TextButton(
@@ -287,6 +306,8 @@ class _SplitQuickLogCard extends StatelessWidget {
     required this.confirmedWokeFromSleep,
     required this.awakeKey,
     required this.wokeFromSleepKey,
+    this.napKey,
+    this.onNap,
     required this.onLog,
   });
 
@@ -295,6 +316,8 @@ class _SplitQuickLogCard extends StatelessWidget {
   final bool? confirmedWokeFromSleep;
   final Key awakeKey;
   final Key wokeFromSleepKey;
+  final Key? napKey;
+  final VoidCallback? onNap;
   final ValueChanged<bool> onLog;
 
   @override
@@ -361,6 +384,27 @@ class _SplitQuickLogCard extends StatelessWidget {
                       onTap: () => onLog(false),
                     ),
                   ),
+                  if (napKey != null && onNap != null) ...[
+                    VerticalDivider(
+                      width: 1,
+                      thickness: 1,
+                      color: foreground.withValues(alpha: 0.28),
+                    ),
+                    Expanded(
+                      child: _QuickLogOption(
+                        key: napKey,
+                        type: type,
+                        wokeFromSleep: true,
+                        icon: Icons.airline_seat_flat_outlined,
+                        label: 'Woke from nap',
+                        foreground: foreground,
+                        enabled: !busy,
+                        busy: false,
+                        confirmed: false,
+                        onTap: onNap!,
+                      ),
+                    ),
+                  ],
                   VerticalDivider(
                     width: 1,
                     thickness: 1,
@@ -502,6 +546,7 @@ class _HomeSummary extends StatelessWidget {
             nowUtc: nowUtc,
           ),
         ];
+        final nocturia = _NocturiaCard(count: data.nocturiaCountToday);
         if (constraints.maxWidth >= 560) {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -509,13 +554,56 @@ class _HomeSummary extends StatelessWidget {
               Expanded(child: cards[0]),
               const SizedBox(width: 12),
               Expanded(child: cards[1]),
+              const SizedBox(width: 12),
+              Expanded(child: nocturia),
             ],
           );
         }
         return Column(
-          children: [cards[0], const SizedBox(height: 12), cards[1]],
+          children: [
+            cards[0],
+            const SizedBox(height: 12),
+            cards[1],
+            const SizedBox(height: 12),
+            nocturia,
+          ],
         );
       },
+    );
+  }
+}
+
+class _NocturiaCard extends StatelessWidget {
+  const _NocturiaCard({required this.count});
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Row(
+          children: [
+            const Icon(Icons.bedtime_outlined, size: 34),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '$count nocturia ${count == 1 ? 'wake-up' : 'wake-ups'}',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const Text('Woke from night sleep to urinate'),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

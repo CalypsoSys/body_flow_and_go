@@ -19,6 +19,7 @@ final class BodyEvent {
     this.urgency,
     this.leakage,
     this.wokeFromSleep,
+    this.wokeFromNap,
     this.bristolType,
     this.notes,
     Map<String, Object?>? extraDetails,
@@ -72,6 +73,8 @@ final class BodyEvent {
   /// This sleep context applies to every event type. Only urination events
   /// marked `true` are considered nocturia in trend summaries.
   final bool? wokeFromSleep;
+  /// Whether this event followed waking from a nap.
+  final bool? wokeFromNap;
   final int? bristolType;
   final String? notes;
   final Map<String, Object?>? extraDetails;
@@ -102,6 +105,7 @@ final class BodyEvent {
     Object? urgency = _notProvided,
     Object? leakage = _notProvided,
     Object? wokeFromSleep = _notProvided,
+    Object? wokeFromNap = _notProvided,
     Object? bristolType = _notProvided,
     Object? notes = _notProvided,
     Object? extraDetails = _notProvided,
@@ -138,6 +142,9 @@ final class BodyEvent {
       wokeFromSleep: identical(wokeFromSleep, _notProvided)
           ? this.wokeFromSleep
           : wokeFromSleep as bool?,
+      wokeFromNap: identical(wokeFromNap, _notProvided)
+          ? this.wokeFromNap
+          : wokeFromNap as bool?,
       bristolType: identical(bristolType, _notProvided)
           ? this.bristolType
           : bristolType as int?,

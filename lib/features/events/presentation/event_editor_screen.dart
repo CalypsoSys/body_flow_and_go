@@ -33,6 +33,7 @@ class _EventEditorScreenState extends ConsumerState<EventEditorScreen> {
   LeakageLevel? _leakage;
   int? _bristolType;
   bool? _wokeFromSleep;
+  bool? _wokeFromNap;
   bool _timeWasChanged = false;
   bool _saving = false;
 
@@ -55,6 +56,7 @@ class _EventEditorScreenState extends ConsumerState<EventEditorScreen> {
     _leakage = event?.leakage;
     _bristolType = event?.bristolType;
     _wokeFromSleep = event?.wokeFromSleep;
+    _wokeFromNap = event?.wokeFromNap;
     _notesController = TextEditingController(text: event?.notes ?? '');
   }
 
@@ -126,6 +128,7 @@ class _EventEditorScreenState extends ConsumerState<EventEditorScreen> {
                       _bristolType = null;
                     } else {
                       _leakage = null;
+                      _wokeFromNap = null;
                     }
                   });
                 },
@@ -186,8 +189,28 @@ class _EventEditorScreenState extends ConsumerState<EventEditorScreen> {
                     child: Text('No', key: Key('woke_from_sleep_no')),
                   ),
                 ],
-                onChanged: (value) => setState(() => _wokeFromSleep = value),
+                onChanged: (value) => setState(() {
+                  _wokeFromSleep = value;
+                  if (value != true) _wokeFromNap = null;
+                }),
               ),
+              if (_eventType == EventType.urination) ...[
+                const SizedBox(height: 12),
+                SwitchListTile(
+                  key: const Key('woke_from_nap_control'),
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('Woke from nap'),
+                  subtitle: const Text(
+                    'Counts toward urination, but not nocturia.',
+                  ),
+                  value: _wokeFromNap == true,
+                  onChanged: _wokeFromSleep == true
+                      ? (value) => setState(
+                          () => _wokeFromNap = value ? true : null,
+                        )
+                      : null,
+                ),
+              ],
               if (showOptionalDetails) ...[
                 const SizedBox(height: 24),
                 Text(
@@ -365,6 +388,7 @@ class _EventEditorScreenState extends ConsumerState<EventEditorScreen> {
         urgency: _urgency,
         leakage: _eventType == EventType.urination ? _leakage : null,
         wokeFromSleep: _wokeFromSleep,
+        wokeFromNap: _wokeFromNap,
         bristolType: _eventType == EventType.bowelMovement
             ? _bristolType
             : null,
@@ -379,6 +403,7 @@ class _EventEditorScreenState extends ConsumerState<EventEditorScreen> {
       urgency: _urgency,
       leakage: _eventType == EventType.urination ? _leakage : null,
       wokeFromSleep: _wokeFromSleep,
+      wokeFromNap: _wokeFromNap,
       bristolType: _eventType == EventType.bowelMovement ? _bristolType : null,
       notes: _notesController.text,
       extraDetails: event?.extraDetails,

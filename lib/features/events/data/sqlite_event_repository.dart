@@ -46,6 +46,7 @@ final class SQLiteEventRepository implements EventRepository {
       urgency: draft.urgency,
       leakage: draft.leakage,
       wokeFromSleep: draft.wokeFromSleep,
+      wokeFromNap: draft.wokeFromNap,
       bristolType: draft.bristolType,
       notes: draft.notes,
       extraDetails: draft.extraDetails,
@@ -202,6 +203,7 @@ final class SQLiteEventRepository implements EventRepository {
       EventTableSchema.urgency: draft.urgency?.storageValue,
       EventTableSchema.leakage: draft.leakage?.storageValue,
       EventTableSchema.wokeFromSleep: _encodeNullableBool(draft.wokeFromSleep),
+      EventTableSchema.wokeFromNap: _encodeNullableBool(draft.wokeFromNap),
       EventTableSchema.bristolType: draft.bristolType,
       EventTableSchema.notes: draft.notes,
       EventTableSchema.extraDetailsJson: _encodeExtraDetails(
@@ -244,6 +246,7 @@ final class SQLiteEventRepository implements EventRepository {
         LeakageLevel.fromStorage,
       ),
       wokeFromSleep: _decodeNullableBool(row[EventTableSchema.wokeFromSleep]),
+      wokeFromNap: _decodeNullableBool(row[EventTableSchema.wokeFromNap]),
       bristolType: row[EventTableSchema.bristolType] as int?,
       notes: row[EventTableSchema.notes] as String?,
       extraDetails: _decodeExtraDetails(
