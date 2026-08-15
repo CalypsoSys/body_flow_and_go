@@ -110,12 +110,12 @@ for local development or a controlled test environment.
 | Dart define | Default | Purpose |
 | --- | --- | --- |
 | `BODY_FLOW_AND_GO_FEEDBACK_URL` | `https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go` | Optional absolute HTTPS override; non-HTTPS or relative values are rejected |
-| `BODY_FLOW_AND_GO_APP_VERSION` | `1.0.1+3` | Version label shown in About and sent in the `X-AIP-App-Version` request header |
+| `BODY_FLOW_AND_GO_APP_VERSION` | `1.0.2+4` | Version label shown in About and sent in the `X-AIP-App-Version` request header |
 
 For example:
 
 ```console
-flutter run --dart-define=BODY_FLOW_AND_GO_FEEDBACK_URL=https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.1+3
+flutter run --dart-define=BODY_FLOW_AND_GO_FEEDBACK_URL=https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.2+4
 ```
 
 The endpoint is public routing configuration rather than a secret, so the
@@ -172,6 +172,9 @@ flutter build ipa --release
 
 Select the appropriate Apple development team and signing identity for the
 `com.calypsosystems.golog` Runner target in Xcode.
+
+For the no-Mac Codemagic and TestFlight workflow, see
+[docs/apple_release_checklist.md](docs/apple_release_checklist.md).
 
 ## Architecture
 
