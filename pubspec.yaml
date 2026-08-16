@@ -1,7 +1,7 @@
 name: golog
 description: A private, local-first bladder and bowel movement tracker.
 publish_to: "none"
-version: 1.0.2+4
+version: 1.0.2+5
 
 environment:
   sdk: ^3.12.0

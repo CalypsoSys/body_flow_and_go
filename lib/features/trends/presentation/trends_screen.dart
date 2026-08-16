@@ -189,21 +189,26 @@ class _TrendContent extends StatelessWidget {
       0,
       (sum, day) => sum + day.bowelMovementCount,
     );
+    final loggedDayCount = summary.dailyTotals
+        .where((day) => day.totalCount > 0)
+        .length;
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
       children: [
+        Text('Summary', style: Theme.of(context).textTheme.titleLarge),
+        const SizedBox(height: 10),
         _SummaryGrid(
           cards: [
             _SummaryValue(
-              label: 'Urination events',
-              value: '$urinationTotal',
-              icon: Icons.water_drop_outlined,
+              label: 'Logged days',
+              value: '$loggedDayCount / ${summary.range.dayCount}',
+              icon: Icons.event_available_outlined,
             ),
             _SummaryValue(
-              label: 'Woke to urinate',
-              value: '${summary.nocturiaCount}',
-              icon: Icons.bedtime_outlined,
+              label: 'Urination avg/day',
+              value: summary.averageUrinationEventsPerDay.toStringAsFixed(1),
+              icon: Icons.water_drop_outlined,
             ),
             _SummaryValue(
               label: 'Nocturia avg/night',
@@ -211,26 +216,11 @@ class _TrendContent extends StatelessWidget {
               icon: Icons.nightlight_outlined,
             ),
             _SummaryValue(
-              label: 'Bowel movements',
-              value: '$bowelTotal',
-              icon: Icons.circle_outlined,
-            ),
-            _SummaryValue(
-              label: 'Urination avg/day',
-              value: summary.averageUrinationEventsPerDay.toStringAsFixed(1),
-              icon: Icons.functions,
-            ),
-            _SummaryValue(
               label: 'Bowel avg/day',
               value: summary.averageBowelMovementEventsPerDay.toStringAsFixed(
                 1,
               ),
               icon: Icons.functions,
-            ),
-            _SummaryValue(
-              label: 'All events avg/day',
-              value: summary.averageTotalEventsPerDay.toStringAsFixed(1),
-              icon: Icons.calculate_outlined,
             ),
             _SummaryValue(
               label: 'Longest urine gap',
@@ -241,6 +231,28 @@ class _TrendContent extends StatelessWidget {
               label: 'Average urine gap',
               value: _formatInterval(summary.averageUrinationInterval),
               icon: Icons.schedule_outlined,
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
+        Text('Period totals', style: Theme.of(context).textTheme.titleLarge),
+        const SizedBox(height: 10),
+        _SummaryGrid(
+          cards: [
+            _SummaryValue(
+              label: 'Logged urination events',
+              value: '$urinationTotal',
+              icon: Icons.water_drop_outlined,
+            ),
+            _SummaryValue(
+              label: 'Logged bowel movements',
+              value: '$bowelTotal',
+              icon: Icons.circle_outlined,
+            ),
+            _SummaryValue(
+              label: 'Woke to urinate',
+              value: '${summary.nocturiaCount}',
+              icon: Icons.bedtime_outlined,
             ),
           ],
         ),
