@@ -110,12 +110,12 @@ for local development or a controlled test environment.
 | Dart define | Default | Purpose |
 | --- | --- | --- |
 | `BODY_FLOW_AND_GO_FEEDBACK_URL` | `https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go` | Optional absolute HTTPS override; non-HTTPS or relative values are rejected |
-| `BODY_FLOW_AND_GO_APP_VERSION` | `1.0.2+5` | Version label shown in About and sent in the `X-AIP-App-Version` request header |
+| `BODY_FLOW_AND_GO_APP_VERSION` | `1.0.2+6` | Version label shown in About and sent in the `X-AIP-App-Version` request header |
 
 For example:
 
 ```console
-flutter run --dart-define=BODY_FLOW_AND_GO_FEEDBACK_URL=https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.2+5
+flutter run --dart-define=BODY_FLOW_AND_GO_FEEDBACK_URL=https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.2+6
 ```
 
 The endpoint is public routing configuration rather than a secret, so the
@@ -318,8 +318,8 @@ another app or saved destination.
 Before a Google Play release, review the conservative
 [Data Safety worksheet](docs/google_play_data_safety.md) against the deployed
 feedback backend, hosting logs, Slack configuration, third-party terms, and the
-exact release artifact. This repository does not assert that a hosted privacy
-policy has been published.
+exact release artifact. The hosted privacy policy is available at
+<https://calypsosystemsllc.com/bodyflowandgo/privacy-policy>.
 
 ## Sensible future enhancements
 

@@ -32,6 +32,7 @@ bundle.
 
 ## Play Console
 
-Complete the hosted privacy policy, Health Apps declaration, Data Safety form,
+Complete the hosted privacy policy at
+<https://calypsosystemsllc.com/bodyflowandgo/privacy-policy>, the Health Apps declaration, Data Safety form,
 content rating, store assets, support contact, and applicable testing track
 requirements before production rollout. See the [Data Safety worksheet](google_play_data_safety.md).

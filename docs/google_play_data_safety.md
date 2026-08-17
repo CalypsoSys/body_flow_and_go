@@ -161,6 +161,5 @@ eight-second timeout.
   exception; disclose sharing if they do not or if the status is uncertain.
 - Keep the in-app feedback disclosure, Play declaration, store listing, and
   user-facing privacy policy consistent with the deployed behavior.
-- Publish an appropriate hosted privacy policy and enter its URL in Play Console
-  before release. No hosted privacy-policy URL is established or verified by
-  this repository or worksheet.
+- Enter the hosted privacy-policy URL in Play Console before release:
+  <https://calypsosystemsllc.com/bodyflowandgo/privacy-policy>
