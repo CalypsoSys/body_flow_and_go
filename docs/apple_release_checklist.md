@@ -124,10 +124,10 @@ unsigned/non-distribution workflow. The release configuration should produce an
 The version comes from `pubspec.yaml`:
 
 ```text
-version: 1.0.2+7
+version: 1.0.2+8
 ```
 
-The marketing version is `1.0.2`; the Apple build number is `7`. Every later
+The marketing version is `1.0.2`; the Apple build number is `8`. Every later
 upload must use a higher build number.
 
 ## TestFlight internal testing
