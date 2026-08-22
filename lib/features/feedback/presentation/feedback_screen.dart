@@ -79,6 +79,8 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
               key: const Key('feedback_subject_field'),
               controller: _subjectController,
               maxLength: FeedbackDraft.fieldMaxLength,
+              autocorrect: false,
+              enableSuggestions: false,
               textInputAction: TextInputAction.next,
               decoration: const InputDecoration(
                 labelText: 'Subject',
@@ -92,6 +94,8 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
               minLines: 4,
               maxLines: 8,
               maxLength: FeedbackDraft.messageMaxLength,
+              autocorrect: false,
+              enableSuggestions: false,
               textCapitalization: TextCapitalization.sentences,
               textInputAction: TextInputAction.newline,
               decoration: const InputDecoration(

@@ -297,6 +297,8 @@ class _EventEditorScreenState extends ConsumerState<EventEditorScreen> {
                   minLines: 3,
                   maxLines: 6,
                   maxLength: 1000,
+                  autocorrect: false,
+                  enableSuggestions: false,
                   decoration: const InputDecoration(
                     labelText: 'Note',
                     hintText: 'Optional',
