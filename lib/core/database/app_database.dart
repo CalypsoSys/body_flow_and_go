@@ -1,6 +1,7 @@
 import 'package:path/path.dart' as path_package;
 import 'package:sqflite/sqflite.dart' as sqlite;
 
+import 'backup_exclusion.dart';
 import 'database_migrations.dart';
 
 /// Lazily opens Body Flow & Go's private local SQLite database.
@@ -33,7 +34,7 @@ final class AppDatabase {
 
   Future<sqlite.Database> _open() async {
     final databasePath = await resolvedPath;
-    return _databaseFactory.openDatabase(
+    final database = await _databaseFactory.openDatabase(
       databasePath,
       options: sqlite.OpenDatabaseOptions(
         version: schemaVersion,
@@ -56,6 +57,8 @@ final class AppDatabase {
         },
       ),
     );
+    await excludeDatabaseFromBackup(databasePath);
+    return database;
   }
 
   /// Closes an opened database. Calling close before open is harmless.

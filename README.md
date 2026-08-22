@@ -114,12 +114,12 @@ for local development or a controlled test environment.
 | Dart define | Default | Purpose |
 | --- | --- | --- |
 | `BODY_FLOW_AND_GO_FEEDBACK_URL` | `https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go` | Optional absolute HTTPS override; non-HTTPS or relative values are rejected |
-| `BODY_FLOW_AND_GO_APP_VERSION` | `1.0.3+11` | Version label shown in About and sent in the `X-AIP-App-Version` request header |
+| `BODY_FLOW_AND_GO_APP_VERSION` | `1.0.3+12` | Version label shown in About and sent in the `X-AIP-App-Version` request header |
 
 For example:
 
 ```console
-flutter run --dart-define=BODY_FLOW_AND_GO_FEEDBACK_URL=https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.3+11
+flutter run --dart-define=BODY_FLOW_AND_GO_FEEDBACK_URL=https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.3+12
 ```
 
 The endpoint is public routing configuration rather than a secret, so the
@@ -315,9 +315,9 @@ another app or saved destination.
 - Deleting all data clears event records while keeping non-health preferences.
   It also removes Body Flow & Go export files still in the app's temporary
   directory, but cannot remove shared destination copies or submitted feedback.
-- Android cloud/full backup is disabled for event privacy. iOS uninstall and
-  device-backup behavior remains controlled by iOS and the user's device
-  settings.
+- Android cloud/full backup is disabled for event privacy. The iOS health
+  database is explicitly excluded from iCloud and device backups; uninstall
+  and device settings still control the rest of the app's lifecycle.
 
 Before a Google Play release, review the conservative
 [Data Safety worksheet](docs/google_play_data_safety.md) against the deployed

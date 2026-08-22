@@ -1,7 +1,7 @@
 name: golog
 description: A private, local-first personal body tracking app.
 publish_to: "none"
-version: 1.0.3+11
+version: 1.0.3+12
 
 environment:
   sdk: ^3.12.0
