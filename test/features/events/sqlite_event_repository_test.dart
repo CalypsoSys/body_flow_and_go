@@ -95,6 +95,8 @@ void main() {
           amount: EventAmount.medium,
           urgency: EventUrgency.moderate,
           bristolType: 4,
+          wokeFromSleep: true,
+          wokeFromNap: true,
           notes: 'edited',
         ),
       );
@@ -102,7 +104,8 @@ void main() {
       expect(updated.id, original.id);
       expect(updated.eventType, EventType.bowelMovement);
       expect(updated.leakage, isNull);
-      expect(updated.wokeFromSleep, isNull);
+      expect(updated.wokeFromSleep, isTrue);
+      expect(updated.wokeFromNap, isTrue);
       expect(updated.bristolType, 4);
       expect(updated.notes, 'edited');
       expect(updated.createdAtUtc, original.createdAtUtc);
@@ -282,6 +285,7 @@ EventDraft _draft(
   EventUrgency? urgency,
   LeakageLevel? leakage,
   bool? wokeFromSleep,
+  bool? wokeFromNap,
   int? bristolType,
   String? notes,
 }) {
@@ -293,6 +297,7 @@ EventDraft _draft(
     urgency: urgency,
     leakage: leakage,
     wokeFromSleep: wokeFromSleep,
+    wokeFromNap: wokeFromNap,
     bristolType: bristolType,
     notes: notes,
   );

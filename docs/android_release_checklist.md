@@ -18,7 +18,7 @@ work is performed from the Flutter project root.
 
 ```powershell
 flutter build appbundle --release `
-  --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.0+1
+  --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.3+12
 ```
 
 The production endpoint is compiled in by default. Add

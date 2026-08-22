@@ -41,6 +41,12 @@ import UIKit
 
   private static func excludeFromBackup(path: String) throws {
     let fileManager = FileManager.default
+    let databaseURL = URL(fileURLWithPath: path)
+    var directoryValues = URLResourceValues()
+    directoryValues.isExcludedFromBackup = true
+    var databaseDirectory = databaseURL.deletingLastPathComponent()
+    try databaseDirectory.setResourceValues(directoryValues)
+
     let paths = [path, "\(path)-wal", "\(path)-shm"]
     for candidate in paths where fileManager.fileExists(atPath: candidate) {
       var values = URLResourceValues()

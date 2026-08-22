@@ -150,6 +150,7 @@ final class SQLiteEventRepository implements EventRepository {
         urgency: draft.urgency,
         leakage: draft.leakage,
         wokeFromSleep: draft.wokeFromSleep,
+        wokeFromNap: draft.wokeFromNap,
         bristolType: draft.bristolType,
         notes: draft.notes,
         extraDetails: draft.extraDetails,
