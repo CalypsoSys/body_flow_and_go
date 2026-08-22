@@ -1,7 +1,7 @@
 # Body Flow & Go
 
-Body Flow & Go is a calm, private Flutter app for recording urination and bowel
-movements with one tap. Events are timestamped immediately, stored in SQLite
+Body Flow & Go is a calm, private Flutter app for personal body tracking,
+recording urination and bowel movements with one tap. Events are timestamped immediately, stored in SQLite
 on the device, and can be undone for a few seconds. Health records stay local
 unless the user explicitly exports and shares them. The app has no account,
 advertising, or analytics. A separate, optional feedback form uses the network
@@ -10,6 +10,7 @@ only after the user reviews its disclosure and explicitly submits it.
 > Body Flow & Go is a personal tracking tool, not a medical device or
 > diagnostic tool.
 > It is not a substitute for advice from a qualified healthcare professional.
+> It does not provide medical advice, diagnosis, treatment, or emergency support.
 
 ## Features
 
@@ -29,6 +30,8 @@ only after the user reviews its disclosure and explicitly submits it.
 - Deterministic CSV and JSON exports through the native share sheet
 - Optional feedback form with an explicit transmission disclosure and
   acknowledgement
+- First-launch Terms of Use covering personal tracking, medical limitations,
+  accuracy, availability, and user responsibility
 - Local delete-all control and plain-language privacy information
 
 ## Requirements
@@ -100,7 +103,8 @@ request exposes normal network metadata such as the source IP address,
 timestamp, and request headers to the endpoint and its infrastructure, which
 may process or retain it for delivery and security. No event, note, trend,
 database, or export file is attached automatically. Users are told not to put
-health information in the message.
+health information, medical details, or emergency requests in the message.
+Feedback is not monitored for emergencies or medical support.
 
 The production app uses the dedicated Body Flow & Go API route below. The
 public endpoint is safe to include in the client; Slack webhook credentials
@@ -110,12 +114,12 @@ for local development or a controlled test environment.
 | Dart define | Default | Purpose |
 | --- | --- | --- |
 | `BODY_FLOW_AND_GO_FEEDBACK_URL` | `https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go` | Optional absolute HTTPS override; non-HTTPS or relative values are rejected |
-| `BODY_FLOW_AND_GO_APP_VERSION` | `1.0.2+9` | Version label shown in About and sent in the `X-AIP-App-Version` request header |
+| `BODY_FLOW_AND_GO_APP_VERSION` | `1.0.3+10` | Version label shown in About and sent in the `X-AIP-App-Version` request header |
 
 For example:
 
 ```console
-flutter run --dart-define=BODY_FLOW_AND_GO_FEEDBACK_URL=https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.2+9
+flutter run --dart-define=BODY_FLOW_AND_GO_FEEDBACK_URL=https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.3+10
 ```
 
 The endpoint is public routing configuration rather than a secret, so the
@@ -320,6 +324,8 @@ Before a Google Play release, review the conservative
 feedback backend, hosting logs, Slack configuration, third-party terms, and the
 exact release artifact. The hosted privacy policy is available at
 <https://calypsosystemsllc.com/bodyflowandgo/privacy-policy>.
+The hosted Terms of Use are available at
+<https://calypsosystemsllc.com/bodyflowandgo/terms-of-use>.
 
 ## Sensible future enhancements
 

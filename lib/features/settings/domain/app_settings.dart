@@ -30,26 +30,30 @@ class AppSettings {
     this.bowelMovementDetailsEnabled = true,
     this.hapticFeedbackEnabled = true,
     this.themePreference = AppThemePreference.system,
+    this.termsAccepted = false,
   });
 
-  static const int serializationVersion = 1;
+  static const int serializationVersion = 2;
 
   static const String _versionKey = 'version';
   static const String _urinationDetailsKey = 'urinationDetailsEnabled';
   static const String _bowelMovementDetailsKey = 'bowelMovementDetailsEnabled';
   static const String _hapticFeedbackKey = 'hapticFeedbackEnabled';
   static const String _themePreferenceKey = 'themePreference';
+  static const String _termsAcceptedKey = 'termsAccepted';
 
   final bool urinationDetailsEnabled;
   final bool bowelMovementDetailsEnabled;
   final bool hapticFeedbackEnabled;
   final AppThemePreference themePreference;
+  final bool termsAccepted;
 
   AppSettings copyWith({
     bool? urinationDetailsEnabled,
     bool? bowelMovementDetailsEnabled,
     bool? hapticFeedbackEnabled,
     AppThemePreference? themePreference,
+    bool? termsAccepted,
   }) {
     return AppSettings(
       urinationDetailsEnabled:
@@ -59,6 +63,7 @@ class AppSettings {
       hapticFeedbackEnabled:
           hapticFeedbackEnabled ?? this.hapticFeedbackEnabled,
       themePreference: themePreference ?? this.themePreference,
+      termsAccepted: termsAccepted ?? this.termsAccepted,
     );
   }
 
@@ -70,6 +75,7 @@ class AppSettings {
       _bowelMovementDetailsKey: bowelMovementDetailsEnabled,
       _hapticFeedbackKey: hapticFeedbackEnabled,
       _themePreferenceKey: themePreference.storageValue,
+      _termsAcceptedKey: termsAccepted,
     };
   }
 
@@ -86,6 +92,7 @@ class AppSettings {
       themePreference: AppThemePreference.fromStorageValue(
         json[_themePreferenceKey],
       ),
+      termsAccepted: _readBool(json, _termsAcceptedKey, false),
     );
   }
 
@@ -101,7 +108,8 @@ class AppSettings {
             other.urinationDetailsEnabled == urinationDetailsEnabled &&
             other.bowelMovementDetailsEnabled == bowelMovementDetailsEnabled &&
             other.hapticFeedbackEnabled == hapticFeedbackEnabled &&
-            other.themePreference == themePreference;
+            other.themePreference == themePreference &&
+            other.termsAccepted == termsAccepted;
   }
 
   @override
@@ -110,6 +118,7 @@ class AppSettings {
     bowelMovementDetailsEnabled,
     hapticFeedbackEnabled,
     themePreference,
+    termsAccepted,
   );
 
   @override
@@ -118,6 +127,7 @@ class AppSettings {
         'urinationDetailsEnabled: $urinationDetailsEnabled, '
         'bowelMovementDetailsEnabled: $bowelMovementDetailsEnabled, '
         'hapticFeedbackEnabled: $hapticFeedbackEnabled, '
-        'themePreference: $themePreference)';
+        'themePreference: $themePreference, '
+        'termsAccepted: $termsAccepted)';
   }
 }

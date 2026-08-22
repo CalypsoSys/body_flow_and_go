@@ -52,7 +52,9 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                         'Systems and may be routed through Slack. Basic network metadata '
                         'may be processed for security. No stored event, note, '
                         'trend, or export data is attached. Do not include '
-                        'health information in your message.',
+                        'health information, medical details, or emergency '
+                        'requests in your message. Feedback is not monitored '
+                        'for emergencies and is not medical support.',
                       ),
                     ),
                   ],

@@ -6,10 +6,11 @@ import '../../export/domain/export_format.dart';
 import '../../feedback/presentation/feedback_screen.dart';
 import '../domain/app_settings.dart';
 import 'privacy_screen.dart';
+import 'terms_of_use_screen.dart';
 
 const _appVersion = String.fromEnvironment(
   'BODY_FLOW_AND_GO_APP_VERSION',
-  defaultValue: '1.0.1+3',
+  defaultValue: '1.0.3+10',
 );
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -179,11 +180,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       ),
                     ),
                     const Divider(height: 1, indent: 56),
+                    ListTile(
+                      leading: const Icon(Icons.description_outlined),
+                      title: const Text('Terms of Use'),
+                      subtitle: const Text('Personal tracking and safe use'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => Navigator.of(context).push<void>(
+                        MaterialPageRoute(
+                          builder: (_) => const TermsOfUseScreen(),
+                        ),
+                      ),
+                    ),
+                    const Divider(height: 1, indent: 56),
                     const ListTile(
                       leading: Icon(Icons.info_outline),
                       title: Text('Body Flow & Go $_appVersion'),
                       subtitle: Text(
-                        'Personal tracking tool — not medical diagnosis',
+                        'Personal body tracking — not medical advice',
                       ),
                     ),
                   ],

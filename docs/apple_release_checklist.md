@@ -124,7 +124,7 @@ unsigned/non-distribution workflow. The release configuration should produce an
 The version comes from `pubspec.yaml`:
 
 ```text
-version: 1.0.2+9
+version: 1.0.3+10
 ```
 
 The marketing version is `1.0.2`; the Apple build number is `9`. Every later

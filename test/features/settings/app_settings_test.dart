@@ -10,6 +10,7 @@ void main() {
       expect(settings.bowelMovementDetailsEnabled, isTrue);
       expect(settings.hapticFeedbackEnabled, isTrue);
       expect(settings.themePreference, AppThemePreference.system);
+      expect(settings.termsAccepted, isFalse);
     });
 
     test('copyWith changes only supplied fields', () {
@@ -32,16 +33,18 @@ void main() {
         bowelMovementDetailsEnabled: false,
         hapticFeedbackEnabled: false,
         themePreference: AppThemePreference.light,
+        termsAccepted: true,
       );
 
       final json = settings.toJson();
 
       expect(json, <String, Object>{
-        'version': 1,
+        'version': 2,
         'urinationDetailsEnabled': false,
         'bowelMovementDetailsEnabled': false,
         'hapticFeedbackEnabled': false,
         'themePreference': 'light',
+        'termsAccepted': true,
       });
       expect(AppSettings.fromJson(json), settings);
     });
@@ -58,6 +61,7 @@ void main() {
       expect(settings.bowelMovementDetailsEnabled, isTrue);
       expect(settings.hapticFeedbackEnabled, isTrue);
       expect(settings.themePreference, AppThemePreference.system);
+      expect(settings.termsAccepted, isFalse);
     });
   });
 }
