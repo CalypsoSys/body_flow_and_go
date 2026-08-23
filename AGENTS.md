@@ -41,8 +41,6 @@ GitHub Actions.
 
 - Never commit `android/key.properties`, keystores, `.env` files, or private
   Dart-define files.
-- The optional feedback URL must be supplied with
-  `BODY_FLOW_AND_GO_FEEDBACK_URL` at build or launch time.
 - Never put Slack webhook URLs, API keys, passwords, tokens, or health records
   in source, tests, tracked VS Code files, or issue reports.
 - Use `.vscode/body-flow-and-go.local.env.example` as the shape for an ignored

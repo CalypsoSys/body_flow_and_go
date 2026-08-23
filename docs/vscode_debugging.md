@@ -34,7 +34,7 @@ Open **Run and Debug** (`Ctrl+Shift+D`), select a profile, and press `F5`:
   used by the `aip_food_lookup` workspace: `RFCWC06KQGF`.
 - **Body Flow & Go: Debug + sample data (Galaxy S23)** combines that fixed
   device with development seeding.
-- **Body Flow & Go: Debug + local feedback config** loads the ignored
+- **Body Flow & Go: Debug + local app version config** loads the ignored
   `.vscode/body-flow-and-go.local.env` file. Use this only after copying
   `.vscode/body-flow-and-go.local.env.example` and replacing its placeholder.
 
@@ -53,9 +53,8 @@ Copy the example file without adding it to Git:
 Copy-Item .vscode\body-flow-and-go.local.env.example .vscode\body-flow-and-go.local.env
 ```
 
-Edit the ignored file with an optional HTTPS feedback endpoint override and a
-development app version. The example already points to the production public
-route. Do not put Slack webhooks, gateway credentials, or health data in it.
+Edit the ignored file with a development app version. Do not put Slack
+webhooks, gateway credentials, or health data in it.
 
 ## Sample-data behavior
 

@@ -55,20 +55,16 @@ class HttpFeedbackRepository implements FeedbackRepository {
     required Uri endpoint,
     this.transport = const IoFeedbackTransport(),
     this.clientName = 'body-flow-and-go-android',
-    this.appVersion = '1.0.3+12',
+    this.appVersion = '1.0.3+13',
   }) : endpoint = _validateEndpoint(endpoint);
 
   factory HttpFeedbackRepository.production() {
-    const endpointValue = String.fromEnvironment(
-      'BODY_FLOW_AND_GO_FEEDBACK_URL',
-      defaultValue: productionFeedbackEndpoint,
-    );
     const version = String.fromEnvironment(
       'BODY_FLOW_AND_GO_APP_VERSION',
-      defaultValue: '1.0.3+12',
+      defaultValue: '1.0.3+13',
     );
     return HttpFeedbackRepository(
-      endpoint: Uri.parse(endpointValue),
+      endpoint: Uri.parse(productionFeedbackEndpoint),
       clientName: 'body-flow-and-go-${Platform.operatingSystem}',
       appVersion: version,
     );

@@ -131,8 +131,7 @@ The feedback client uses compile-time Dart defines:
 
 | Dart define | Default | Sent or used as |
 | --- | --- | --- |
-| `BODY_FLOW_AND_GO_FEEDBACK_URL` | Not set; required for feedback | Destination URL injected by the build environment; must be absolute HTTPS |
-| `BODY_FLOW_AND_GO_APP_VERSION` | `1.0.3+12` | `X-AIP-App-Version` header |
+| `BODY_FLOW_AND_GO_APP_VERSION` | `1.0.3+13` | `X-AIP-App-Version` header |
 
 Production builds derive the source/client label as
 `body-flow-and-go-${Platform.operatingSystem}`. This produces

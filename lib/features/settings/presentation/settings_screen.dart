@@ -10,7 +10,7 @@ import 'terms_of_use_screen.dart';
 
 const _appVersion = String.fromEnvironment(
   'BODY_FLOW_AND_GO_APP_VERSION',
-  defaultValue: '1.0.3+12',
+  defaultValue: '1.0.3+13',
 );
 
 class SettingsScreen extends ConsumerStatefulWidget {

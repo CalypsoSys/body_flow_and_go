@@ -8,9 +8,8 @@ work is performed from the Flutter project root.
 - Confirm `com.calypsosystems.golog` is the permanent Play package name.
 - Create a private upload keystore and an ignored `android/key.properties`.
 - Confirm the production build uses the dedicated public endpoint
-  `https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go`. A build-time
-  override is available for controlled environments; never put a Slack webhook
-  or gateway secret in Git or the app.
+  `https://api.calypsosystemsllc.com/v1/feedback/body-flow-and-go`; never put a
+  Slack webhook or gateway secret in Git or the app.
 - Supply `BODY_FLOW_AND_GO_APP_VERSION` for the release.
 - Run `scripts\verify.ps1` or `bash scripts/verify.sh`.
 
@@ -18,12 +17,10 @@ work is performed from the Flutter project root.
 
 ```powershell
 flutter build appbundle --release `
-  --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.3+12
+  --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.3+13
 ```
 
-The production endpoint is compiled in by default. Add
-`--dart-define=BODY_FLOW_AND_GO_FEEDBACK_URL=$env:BODY_FLOW_AND_GO_FEEDBACK_URL`
-only when intentionally building against a controlled alternate endpoint.
+The production endpoint is compiled into the app.
 
 Inspect the signed AAB, verify the application label and package ID, test the
 one-tap workflow on a physical device, and validate the final artifact's
