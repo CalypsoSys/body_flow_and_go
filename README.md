@@ -332,7 +332,7 @@ The hosted Terms of Use are available at
 - Home-screen widgets, shortcuts, or carefully configurable reminders
 - Import and encrypted backup/restore
 - Clinician-friendly PDF summaries selected by the user
-- Additional symptom, fluid-intake, medication, or custom event fields
+- Additional detail, fluid-intake, medication, or custom event fields
 - Localization and expanded accessibility audits
 - User-controlled end-to-end encrypted sync, remaining off by default
 

@@ -308,7 +308,7 @@ class _EventEditorScreenState extends ConsumerState<EventEditorScreen> {
               ] else ...[
                 const SizedBox(height: 20),
                 Text(
-                  'Optional amount, symptom, and note fields are hidden in '
+                  'Optional amount, detail, and note fields are hidden in '
                   'Settings. Time, type, and sleep context can still be edited '
                   'here.',
                   style: Theme.of(context).textTheme.bodyMedium,
