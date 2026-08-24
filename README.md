@@ -23,7 +23,7 @@ only after the user reviews its disclosure and explicitly submits it.
 - Date-grouped history with type and inclusive date-range filters
 - 7-, 30-, 90-day, and custom trends
 - Daily totals and averages, hour-of-day charts, weekly/monthly charts,
-  nocturia counts, and urination interval statistics
+  nighttime wakeup counts, and urination interval statistics
 - Sleep context for either event type, plus configurable optional fields for
   amount, urgency, leakage, Bristol type, and notes
 - System, light, and dark themes
@@ -241,10 +241,10 @@ event happened while the user was already awake; **Woke from sleep** means the
 event caused the user to wake from nighttime sleep; and **Woke from nap** is
 available for urination events that followed a nap. Body Flow & Go never
 guesses this from the clock time. Nap wakeups contribute to total urination,
-but not nocturia. Nocturia counts nighttime wakeups between 8 PM and the first
+but not the nighttime-wakeup summary. Nighttime wakeups count between 8 PM and the first
 next-day urination marked **Awake**. Trend event averages skip calendar days
 with no logged events, since those days are unobserved rather than confirmed
-zero-event days; a logged day with no nocturia still counts as a zero.
+zero-event days; a logged day with no nighttime wakeups still counts as a zero.
 
 ## Database schema and migrations
 

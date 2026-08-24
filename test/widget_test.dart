@@ -102,7 +102,7 @@ void main() {
     await tester.tap(find.byKey(const Key('add_details_action')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Woke from sleep (nocturia)'), findsOneWidget);
+    expect(find.text('Woke from sleep'), findsOneWidget);
     expect(
       find.text(
         'Choose Yes if the need to urinate woke you. '

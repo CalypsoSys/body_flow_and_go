@@ -211,7 +211,7 @@ class _TrendContent extends StatelessWidget {
               icon: Icons.water_drop_outlined,
             ),
             _SummaryValue(
-              label: 'Nocturia avg/night',
+              label: 'Night wakeups avg/night',
               value: summary.averageNocturiaWakeupsPerNight.toStringAsFixed(1),
               icon: Icons.nightlight_outlined,
             ),
@@ -265,9 +265,9 @@ class _TrendContent extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         _ChartCard(
-          title: 'Nocturia over time',
-          subtitle: 'Nighttime wake-ups to urinate by waking date.',
-          child: _NocturiaLineChart(totals: summary.dailyTotals),
+          title: 'Night wakeups over time',
+          subtitle: 'Nighttime wakeups by waking date.',
+          child: _NightWakeupsLineChart(totals: summary.dailyTotals),
         ),
         const SizedBox(height: 16),
         _ChartCard(
@@ -666,8 +666,8 @@ class _HourlyBarChart extends StatelessWidget {
   }
 }
 
-class _NocturiaLineChart extends StatelessWidget {
-  const _NocturiaLineChart({required this.totals});
+class _NightWakeupsLineChart extends StatelessWidget {
+  const _NightWakeupsLineChart({required this.totals});
 
   final List<DailyEventTotal> totals;
 

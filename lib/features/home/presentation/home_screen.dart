@@ -546,7 +546,7 @@ class _HomeSummary extends StatelessWidget {
             nowUtc: nowUtc,
           ),
         ];
-        final nocturia = _NocturiaCard(count: data.nocturiaCountToday);
+        final nightWakeups = _NightWakeupsCard(count: data.nocturiaCountToday);
         if (constraints.maxWidth >= 560) {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -555,7 +555,7 @@ class _HomeSummary extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(child: cards[1]),
               const SizedBox(width: 12),
-              Expanded(child: nocturia),
+              Expanded(child: nightWakeups),
             ],
           );
         }
@@ -565,7 +565,7 @@ class _HomeSummary extends StatelessWidget {
             const SizedBox(height: 12),
             cards[1],
             const SizedBox(height: 12),
-            nocturia,
+            nightWakeups,
           ],
         );
       },
@@ -573,8 +573,8 @@ class _HomeSummary extends StatelessWidget {
   }
 }
 
-class _NocturiaCard extends StatelessWidget {
-  const _NocturiaCard({required this.count});
+class _NightWakeupsCard extends StatelessWidget {
+  const _NightWakeupsCard({required this.count});
 
   final int count;
 
@@ -592,7 +592,7 @@ class _NocturiaCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '$count nocturia ${count == 1 ? 'wake-up' : 'wake-ups'}',
+                    '$count night ${count == 1 ? 'wake-up' : 'wake-ups'}',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),

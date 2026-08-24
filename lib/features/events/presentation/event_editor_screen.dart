@@ -166,7 +166,7 @@ class _EventEditorScreenState extends ConsumerState<EventEditorScreen> {
                 initialValue: _wokeFromSleep,
                 decoration: InputDecoration(
                   labelText: _eventType == EventType.urination
-                      ? 'Woke from sleep (nocturia)'
+                      ? 'Woke from sleep'
                       : 'Woke from sleep',
                   helperText: _eventType == EventType.urination
                       ? 'Choose Yes if the need to urinate woke you. '
@@ -201,7 +201,7 @@ class _EventEditorScreenState extends ConsumerState<EventEditorScreen> {
                   contentPadding: EdgeInsets.zero,
                   title: const Text('Woke from nap'),
                   subtitle: const Text(
-                    'Counts toward urination, but not nocturia.',
+                    'Counts toward urination, but not nighttime wakeups.',
                   ),
                   value: _wokeFromNap == true,
                   onChanged: _wokeFromSleep == true
