@@ -335,6 +335,61 @@ void main() {
       expect(summary.averageUrinationInterval, isNull);
     });
 
+    test('does not span an entirely unlogged calendar day', () {
+      final range = TrendRange(
+        start: CalendarDate(2026, 9, 1),
+        end: CalendarDate(2026, 9, 3),
+      );
+
+      final summary = calculator.calculate(
+        events: [
+          _localEvent(1, EventType.urination, 2026, 9, 1, 8),
+          _localEvent(2, EventType.urination, 2026, 9, 3, 8),
+        ],
+        range: range,
+      );
+
+      expect(summary.longestUrinationInterval, isNull);
+      expect(summary.averageUrinationInterval, isNull);
+    });
+
+    test('keeps intervals across adjacent calendar days', () {
+      final range = TrendRange(
+        start: CalendarDate(2026, 9, 1),
+        end: CalendarDate(2026, 9, 2),
+      );
+
+      final summary = calculator.calculate(
+        events: [
+          _localEvent(1, EventType.urination, 2026, 9, 1, 23),
+          _localEvent(2, EventType.urination, 2026, 9, 2, 1),
+        ],
+        range: range,
+      );
+
+      expect(summary.longestUrinationInterval, const Duration(hours: 2));
+      expect(summary.averageUrinationInterval, const Duration(hours: 2));
+    });
+
+    test('keeps a gap when an intervening day has another event', () {
+      final range = TrendRange(
+        start: CalendarDate(2026, 9, 1),
+        end: CalendarDate(2026, 9, 3),
+      );
+
+      final summary = calculator.calculate(
+        events: [
+          _localEvent(1, EventType.urination, 2026, 9, 1, 8),
+          _localEvent(2, EventType.bowelMovement, 2026, 9, 2, 12),
+          _localEvent(3, EventType.urination, 2026, 9, 3, 8),
+        ],
+        range: range,
+      );
+
+      expect(summary.longestUrinationInterval, const Duration(days: 2));
+      expect(summary.averageUrinationInterval, const Duration(days: 2));
+    });
+
     test('retains zero-length intervals for duplicate instants', () {
       final range = TrendRange(
         start: CalendarDate(2026, 1, 1),

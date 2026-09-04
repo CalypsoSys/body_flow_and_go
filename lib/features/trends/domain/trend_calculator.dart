@@ -16,7 +16,7 @@ class TrendCalculator {
     };
     final urinationByHour = List<int>.filled(24, 0);
     final bowelMovementByHour = List<int>.filled(24, 0);
-    final urinationInstants = <DateTime>[];
+    final urinationEvents = <BodyEvent>[];
     final nocturiaByDate = _nocturiaByDate(events, range);
 
     for (final event in events) {
@@ -34,7 +34,7 @@ class TrendCalculator {
         case EventType.urination:
           total.urinationCount++;
           urinationByHour[hour]++;
-          urinationInstants.add(event.occurredAtUtc.toUtc());
+          urinationEvents.add(event);
         case EventType.bowelMovement:
           total.bowelMovementCount++;
           bowelMovementByHour[hour]++;
@@ -53,7 +53,11 @@ class TrendCalculator {
         .toList(growable: false);
     final weeklyTotals = _weeklyTotals(dailyTotals);
     final monthlyTotals = _monthlyTotals(dailyTotals);
-    final intervals = _urinationIntervals(urinationInstants);
+    final loggedDates = dailyTotals
+        .where((total) => total.totalCount > 0)
+        .map((total) => total.date)
+        .toSet();
+    final intervals = _urinationIntervals(urinationEvents, loggedDates);
     final urinationCount = dailyTotals.fold<int>(
       0,
       (sum, total) => sum + total.urinationCount,
@@ -192,26 +196,55 @@ class TrendCalculator {
         .toList(growable: false);
   }
 
-  _Intervals _urinationIntervals(List<DateTime> instants) {
-    if (instants.length < 2) {
+  _Intervals _urinationIntervals(
+    List<BodyEvent> events,
+    Set<CalendarDate> loggedDates,
+  ) {
+    if (events.length < 2) {
       return const _Intervals();
     }
 
-    instants.sort();
+    events.sort(
+      (a, b) => a.occurredAtUtc.compareTo(b.occurredAtUtc),
+    );
     Duration? longest;
     var totalMicroseconds = 0;
-    for (var index = 1; index < instants.length; index++) {
-      final interval = instants[index].difference(instants[index - 1]);
+    var intervalCount = 0;
+    for (var index = 1; index < events.length; index++) {
+      final previous = events[index - 1];
+      final current = events[index];
+      var date = previous.localDate.asUtcMidnight.add(const Duration(days: 1));
+      var hasUnloggedDay = false;
+      while (date.isBefore(current.localDate.asUtcMidnight)) {
+        final calendarDate = CalendarDate.fromRecordedWallDate(date);
+        if (!loggedDates.contains(calendarDate)) {
+          hasUnloggedDay = true;
+          break;
+        }
+        date = date.add(const Duration(days: 1));
+      }
+      if (hasUnloggedDay) {
+        continue;
+      }
+
+      final interval = current.occurredAtUtc.difference(
+        previous.occurredAtUtc,
+      );
       totalMicroseconds += interval.inMicroseconds;
+      intervalCount++;
       if (longest == null || interval > longest) {
         longest = interval;
       }
     }
 
+    if (intervalCount == 0) {
+      return const _Intervals();
+    }
+
     return _Intervals(
       longest: longest,
       average: Duration(
-        microseconds: totalMicroseconds ~/ (instants.length - 1),
+        microseconds: totalMicroseconds ~/ intervalCount,
       ),
     );
   }
