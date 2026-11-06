@@ -113,12 +113,12 @@ release and local builds use the same production route.
 
 | Dart define | Default | Purpose |
 | --- | --- | --- |
-| `BODY_FLOW_AND_GO_APP_VERSION` | `1.0.3+13` | Version label shown in About and sent in the `X-AIP-App-Version` request header |
+| `BODY_FLOW_AND_GO_APP_VERSION` | `1.0.5+17` | Version label shown in About and sent in the `X-AIP-App-Version` request header |
 
 For example:
 
 ```console
-flutter run --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.3+13
+flutter run --dart-define=BODY_FLOW_AND_GO_APP_VERSION=1.0.5+17
 ```
 
 The endpoint is public routing configuration rather than a secret, and is
