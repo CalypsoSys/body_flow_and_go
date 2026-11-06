@@ -204,9 +204,7 @@ class TrendCalculator {
       return const _Intervals();
     }
 
-    events.sort(
-      (a, b) => a.occurredAtUtc.compareTo(b.occurredAtUtc),
-    );
+    events.sort((a, b) => a.occurredAtUtc.compareTo(b.occurredAtUtc));
     Duration? longest;
     var totalMicroseconds = 0;
     var intervalCount = 0;
@@ -227,9 +225,7 @@ class TrendCalculator {
         continue;
       }
 
-      final interval = current.occurredAtUtc.difference(
-        previous.occurredAtUtc,
-      );
+      final interval = current.occurredAtUtc.difference(previous.occurredAtUtc);
       totalMicroseconds += interval.inMicroseconds;
       intervalCount++;
       if (longest == null || interval > longest) {
@@ -243,9 +239,7 @@ class TrendCalculator {
 
     return _Intervals(
       longest: longest,
-      average: Duration(
-        microseconds: totalMicroseconds ~/ intervalCount,
-      ),
+      average: Duration(microseconds: totalMicroseconds ~/ intervalCount),
     );
   }
 
